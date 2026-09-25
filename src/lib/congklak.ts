@@ -13,6 +13,8 @@ export const ownsHole = (p: Player, i: number) =>
   p === 0 ? i >= 0 && i <= 6 : i >= 8 && i <= 14;
 export const oppositeHole = (i: number) => 14 - i;
 
+const at = (b: Board, i: number) => b[i] ?? 0;
+
 const nextIndex = (i: number, skip: number) => {
   let n = (i + 1) % 16;
   if (n === skip) n = (n + 1) % 16;
@@ -20,7 +22,7 @@ const nextIndex = (i: number, skip: number) => {
 };
 
 export const sideSum = (board: Board, p: Player) =>
-  holesOf(p).reduce((sum, i) => sum + board[i], 0);
+  holesOf(p).reduce((sum, i) => sum + at(board, i), 0);
 
 export type MoveResult = {
   board: Board;
@@ -33,7 +35,7 @@ export type MoveResult = {
 };
 
 export function canMove(board: Board, player: Player, hole: number) {
-  return ownsHole(player, hole) && board[hole] > 0;
+  return ownsHole(player, hole) && at(board, hole) > 0;
 }
 
 export function applyMove(board: Board, player: Player, hole: number): MoveResult | null {
@@ -46,15 +48,15 @@ export function applyMove(board: Board, player: Player, hole: number): MoveResul
   let captured = 0;
   let extraTurn = false;
 
-  let hand = b[hole];
+  let hand = at(b, hole);
   b[hole] = 0;
   let idx = hole;
 
   // Menyebar terus-menerus sampai biji terakhir jatuh di lubang kosong.
-  for (let guard = 0; guard < 2000; guard++) {
+  for (let guard = 0; guard < 5000; guard++) {
     while (hand > 0) {
       idx = nextIndex(idx, skip);
-      b[idx] += 1;
+      b[idx] = at(b, idx) + 1;
       hand -= 1;
       path.push(idx);
     }
@@ -64,12 +66,12 @@ export function applyMove(board: Board, player: Player, hole: number): MoveResul
       break;
     }
 
-    if (b[idx] === 1) {
+    if (at(b, idx) === 1) {
       if (ownsHole(player, idx)) {
         const opp = oppositeHole(idx);
-        if (b[opp] > 0) {
-          captured = b[opp] + 1;
-          b[store] += captured;
+        if (at(b, opp) > 0) {
+          captured = at(b, opp) + 1;
+          b[store] = at(b, store) + captured;
           b[opp] = 0;
           b[idx] = 0;
         }
@@ -77,7 +79,7 @@ export function applyMove(board: Board, player: Player, hole: number): MoveResul
       break;
     }
 
-    hand = b[idx];
+    hand = at(b, idx);
     b[idx] = 0;
   }
 
@@ -85,17 +87,14 @@ export function applyMove(board: Board, player: Player, hole: number): MoveResul
   let winner: number | null = null;
   let turn: Player = extraTurn ? player : ((1 - player) as Player);
 
-  const empty0 = sideSum(b, 0) === 0;
-  const empty1 = sideSum(b, 1) === 0;
-
-  if (empty0 || empty1) {
+  if (sideSum(b, 0) === 0 || sideSum(b, 1) === 0) {
     // Biji yang tersisa masuk ke lumbung pemiliknya.
-    b[7] += sideSum(b, 0);
-    b[15] += sideSum(b, 1);
+    b[7] = at(b, 7) + sideSum(b, 0);
+    b[15] = at(b, 15) + sideSum(b, 1);
     holesOf(0).forEach((i) => (b[i] = 0));
     holesOf(1).forEach((i) => (b[i] = 0));
     status = "finished";
-    winner = b[7] > b[15] ? 0 : b[15] > b[7] ? 1 : -1;
+    winner = at(b, 7) > at(b, 15) ? 0 : at(b, 15) > at(b, 7) ? 1 : -1;
   } else if (sideSum(b, turn) === 0) {
     // Pemain berikutnya tidak punya biji: giliran kembali ke pemain ini.
     turn = player;
