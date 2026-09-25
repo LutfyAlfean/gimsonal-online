@@ -1,14 +1,18 @@
-# Welcome to your Lovable project
+# Gimsonal Online
+
+buatkan game website mainan tradisional sekarang ada congklak dlu yang keren dan bagus pertama masukan nama 2vs2 jika main di hp otomatis landscape ada button nya, jadi online benar-benar online bisa join room
+
+yang baguss nama website nya adalah gimsonal dibuat oleh copyright@alex2026
 
 This project was built with [Lovable](https://lovable.dev).
 
 ## Build with Lovable
 
-Open your project in the [Lovable editor](https://lovable.dev) and keep building.
+Continue developing this project in the [Lovable editor](https://lovable.dev/projects/1ef6cb20-e02a-4e46-9faf-c59e8765578e).
 
 - **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: connect the project to GitHub and every change made in Lovable is committed straight to your repository.
-- **Full ownership**: this code is yours. Push to your repository and your changes sync back into Lovable, ready for your next prompt.
+- **Stay in sync**: every change made in Lovable is committed straight to this repository.
+- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
 
 ## Development
 
@@ -20,10 +24,3 @@ cd <repository-name>
 npm i
 npm run dev
 ```
-
-## Built with
-
-- TanStack Start
-- TypeScript
-- React
-- Tailwind CSS
