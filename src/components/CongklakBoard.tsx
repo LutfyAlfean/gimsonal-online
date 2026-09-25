@@ -85,7 +85,7 @@ export function CongklakBoard({ board, turn, me, playable, lastPath = [], onPick
   return (
     <div className="surface-wood w-full rounded-[2.5rem] border border-border/60 p-4 pt-8 sm:p-6 sm:pt-10">
       <div className="flex items-stretch gap-3 sm:gap-5">
-        <Store value={oppStore} label={oppLabel} glow={me !== null && turn !== me} />
+        <Store value={board[oppStore]} label={oppLabel} glow={me !== null && turn !== me} />
         <div className="flex flex-1 flex-col justify-center gap-7">
           <div className="grid grid-cols-7 gap-2 sm:gap-3">
             {rowsForMe.far.map((i) => (
@@ -112,7 +112,7 @@ export function CongklakBoard({ board, turn, me, playable, lastPath = [], onPick
             ))}
           </div>
         </div>
-        <Store value={myStore} label={myLabel} glow={me !== null && turn === me} />
+        <Store value={board[myStore]} label={myLabel} glow={me !== null && turn === me} />
       </div>
     </div>
   );
