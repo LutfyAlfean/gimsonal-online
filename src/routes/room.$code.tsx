@@ -37,7 +37,7 @@ export const Route = createFileRoute("/room/$code")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
-  component: RoomPage;
+  component: RoomPage,
 });
 
 function RoomPage() {
