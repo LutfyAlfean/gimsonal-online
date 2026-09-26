@@ -19,12 +19,14 @@ export type Database = {
           board: number[]
           code: string
           created_at: string
+          game: string
           guest_id: string | null
           guest_name: string | null
           host_id: string
           host_name: string
           id: string
           last_move: Json | null
+          state: Json
           status: string
           turn: number
           updated_at: string
@@ -34,12 +36,14 @@ export type Database = {
           board?: number[]
           code: string
           created_at?: string
+          game?: string
           guest_id?: string | null
           guest_name?: string | null
           host_id: string
           host_name: string
           id?: string
           last_move?: Json | null
+          state?: Json
           status?: string
           turn?: number
           updated_at?: string
@@ -49,18 +53,90 @@ export type Database = {
           board?: number[]
           code?: string
           created_at?: string
+          game?: string
           guest_id?: string | null
           guest_name?: string | null
           host_id?: string
           host_name?: string
           id?: string
           last_move?: Json | null
+          state?: Json
           status?: string
           turn?: number
           updated_at?: string
           winner?: number | null
         }
         Relationships: []
+      }
+      room_entries: {
+        Row: {
+          created_at: string
+          data: Json
+          id: string
+          player_id: string
+          room_id: string
+          round: number
+        }
+        Insert: {
+          created_at?: string
+          data?: Json
+          id?: string
+          player_id: string
+          room_id: string
+          round: number
+        }
+        Update: {
+          created_at?: string
+          data?: Json
+          id?: string
+          player_id?: string
+          room_id?: string
+          round?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "room_entries_room_id_fkey"
+            columns: ["room_id"]
+            isOneToOne: false
+            referencedRelation: "game_rooms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      room_players: {
+        Row: {
+          id: string
+          joined_at: string
+          name: string
+          player_id: string
+          room_id: string
+          score: number
+        }
+        Insert: {
+          id?: string
+          joined_at?: string
+          name: string
+          player_id: string
+          room_id: string
+          score?: number
+        }
+        Update: {
+          id?: string
+          joined_at?: string
+          name?: string
+          player_id?: string
+          room_id?: string
+          score?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "room_players_room_id_fkey"
+            columns: ["room_id"]
+            isOneToOne: false
+            referencedRelation: "game_rooms"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
